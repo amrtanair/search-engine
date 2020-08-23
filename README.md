@@ -20,3 +20,11 @@ Work ahead:
 Work ahead:
 1. divide into classes and objects
 2. tests? 
+
+22nd Augut:
+
+1. written code for searching
+
+work ahead:
+1. ranking
+2. tests
