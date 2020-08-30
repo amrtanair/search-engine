@@ -30,10 +30,11 @@ def tokenize(text):
 
     return tokens, document
 
-def generate_inverted_index(url, doc_id, tf):
+def generate_inverted_index(url):
     text = fetch_soup(url)
     tokens, document = tokenize(text)
     inverted_index = {}
+    tf = {}
 
     for i,elem in enumerate(document):
         if elem not in tokens:
@@ -41,10 +42,11 @@ def generate_inverted_index(url, doc_id, tf):
         else:
             if elem not in inverted_index.keys():
                 inverted_index[elem]=[i]
+                tf[elem] = 1
             else:
                 inverted_index[elem].append(i)
-        
-    return inverted_index
+                tf[elem] = tf[elem] + 1
+    return inverted_index, tf
 
 def merge_inverted_index(child_inverted_index, mother_inverted_index, df, doc_id):
     for key in child_inverted_index:
@@ -62,13 +64,27 @@ def compute_idf(df, y):
         df[key] = math.log(x) + 1
     return df
 
+def compute_tfidf(tf, idf):
+    tfidf_hash = [] # list of hashes(list of tfidf for every word in every doc)
+    for i, doc in enumerate(tf):
+        tfidfi = {}
+        for key in idf:
+            if key not in doc:
+                tfidfi[key] = 0
+            else:
+                tfidfi[key] = idf[key] * doc[key]
+        tfidf_hash.append(tfidfi)
+    return tfidf_hash
+
 def driver(urls):
     mother_inverted_index = {}
     df = {}
     tf = []
     for i,url in enumerate(urls):
-        inverted_index = generate_inverted_index(url, i, tf)
+        inverted_index, tfi = generate_inverted_index(url)
         mother_inverted_index, df = merge_inverted_index(inverted_index, mother_inverted_index, df, i)
-        print("harry df is", df['harry'])
+        tf.append(tfi)
     idf = compute_idf(df, len(urls))
-    return mother_inverted_index, idf
+    tfidf_hash = compute_tfidf(tf, idf)
+    return mother_inverted_index, tfidf_hash
+
