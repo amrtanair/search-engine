@@ -1,11 +1,11 @@
-import requests
 import math
+import requests
+import numpy as np
 from bs4 import BeautifulSoup
+from sklearn import preprocessing
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize
-import numpy as np
-from scipy import spatial
-from sklearn import preprocessing
+
 stop_words = set(stopwords.words('english'))
 
 def fetch_soup(url):
@@ -132,4 +132,3 @@ def main(urls):
     map_tfidf_url = map_tfidf_to_urls(tfidf, urls)
 
     return mother_inverted_index, idf, map_tfidf_url
-
