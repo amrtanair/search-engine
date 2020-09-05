@@ -1,6 +1,7 @@
-# import pdb; pdb.set_trace()
 from inverted_index import *
+from query import *
 
+# corpus
 urls= [
 		'https://harrypotter.fandom.com/wiki/Harry_Potter_and_the_Philosopher%27s_Stone', 
        'https://harrypotter.fandom.com/wiki/Harry_Potter_and_the_Chamber_of_Secrets', 
@@ -14,32 +15,27 @@ urls= [
        'https://en.wikipedia.org/wiki/Hungary'
        ]
 
-def query_vector(words, idf):
-	qv = [0]*len(idf)
-	i = 0
-	for key in idf:
-		if key not in words:
-			i+=1
-		else:
-			qv[i] = idf[key]
-	return qv
-
-def get_relevant_urls(words, mother_inverted_index):
-	result= set()
-	position = []
-	for elem in words:
-		if elem not in mother_inverted_index.keys():
-			continue
-		else:
-			for i in range(len(mother_inverted_index[elem])):
-				position.append([elem, mother_inverted_index[elem]])
-				result.add(urls[mother_inverted_index[elem][i][0]])
-	return result
-
 query = input("Enter query: ")
-mother_inverted_index, idf, map_tfidf_url = driver(urls)
-words=query.split()
-urls = get_relevant_urls(words, mother_inverted_index)
+# create lsit of query words in lowercase
+words = word.lower() for word in mystr.split()
+
+# inverted index for the corpus, inverse document frequency for every term in corpus and
+# tfidf of each term mapped to its document
+inverted_index, idf, map_tfidf_url = main(urls)
+
+# normalize and create k-dimensional query vector, 'k' being the number of terms in corpus
 qv = query_vector(words, idf)
-n_qv = normalize(qv)
-import pdb; pdb.set_trace()
+
+# gets docs relevant to given query
+result = get_relevant_urls(words, inverted_index, urls)
+
+# rank docs using cosine similarity
+ranking = get_ranking(result, map_tfidf_url, qv)
+
+# list of relevant docs alongwith cosine similarity value.
+# higher the value, higher the similarity
+print(ranking)
+
+
+
+
