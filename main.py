@@ -16,8 +16,8 @@ urls= [
        ]
 
 query = input("Enter query: ")
-# create lsit of query words in lowercase
-words = word.lower() for word in mystr.split()
+# create list of query words in lowercase
+words = [word.lower() for word in query.split()]
 
 # inverted index for the corpus, inverse document frequency for every term in corpus and
 # tfidf of each term mapped to its document
@@ -35,7 +35,3 @@ ranking = get_ranking(result, map_tfidf_url, qv)
 # list of relevant docs alongwith cosine similarity value.
 # higher the value, higher the similarity
 print(ranking)
-
-
-
-
