@@ -1,4 +1,5 @@
 from inverted_index import normalize
+from scipy import spatial
 
 def query_vector(words, idf):
 	# normalize and create k-dimensional query vector, 'k' being the number of terms in corpus
@@ -25,11 +26,10 @@ def get_relevant_urls(words, mother_inverted_index, urls):
 	return result
 
 def get_ranking(result, map_tfidf_url, qv):
-	# compare similarity of docs to query vector using cosine similrity
+	# compare similarity of docs to query vector using cosine similarity
 	ranked_docs = {}
 	for i, url in enumerate(result):
 		v1 = map_tfidf_url[url]
 		cs = 1 - spatial.distance.cosine(v1, qv)
 		ranked_docs[url] = cs
 	return ranked_docs
-
