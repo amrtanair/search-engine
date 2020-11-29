@@ -19,7 +19,7 @@ The next step was the create a basic search engine, sans the ranking. A string w
 
 ##### Ranking
 
-[tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) was used to rank the relevant documents. It describes how 'important' a term is in a given document. There are different versions of implementing this algorithm. Tf-idf here will be calculated using the method [sci-kit](https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/feature_extraction/text.py#L1322) in the hyperlinked file.
+[tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) was used to rank the relevant documents. It describes how 'important' a term is in a given document. There are different versions of implementing this algorithm. Tf-idf here will be calculated using the method [sci-kit](https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/feature_extraction/text.py#L1322) uses in the hyperlinked file.
 
 After the tf-idf was calculated, the vectors for each document was also normalised using the l2-norm normalization technique. Normalisation was performed because we would be comparing each document's vector with a query vector. This query vector is also k-dimensional and normalised. 
 
