@@ -11,7 +11,7 @@ The first step was to create the inverted index(a dictionary that stores the map
 The second step was doing the same on the corpus, that is, creating an inverted index that included the position of every relevant term in every document. The way to do this was to create a ```mother_inverted_index``` that would be a collection of all inverted indexes such that the value for every key in the dictionary is a list of lists, something like this: 
 Let's say the word "harry", appears in documents 1, 3, but not 2. The record in the hashmap would be as follows: 
 ```
-'harry' => [[1, [45, 67, 54]], [2, [2, 5, 4]]]]
+'harry' => [[1, [45, 67, 54]], [3, [2, 5, 4]]]]
 ```
 Every time the inverted index for a doc was created, it was 'merged' into the mother inverted index by looping through every term in the newly created one: adding the term to the larger inverted index if it doesn't exist and if it does exist, add it to the existing key/value pair in the ```mother_inverted_index```.
 
